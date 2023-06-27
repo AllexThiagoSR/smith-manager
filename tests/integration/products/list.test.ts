@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('GET /products', function () { 
   beforeEach(function () { sinon.restore(); });
 
-  it('create a valid product', async function () {
+  it('get all products', async function () {
     const buildedProducts = productsMock.productsList.map((product) => ProductModel.build(product));
     sinon.stub(ProductModel, 'findAll').resolves(buildedProducts);
     const httpResponse = await chai.request(app).get('/products');
