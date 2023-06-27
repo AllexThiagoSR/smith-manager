@@ -9,8 +9,6 @@ const create = async (
     const product = await ProductModel.create(productInfo);
     return { status: 201, data: product };
   } catch (error) {
-    console.log(error);
-    
     return { status: 500, data: { message: 'Internal server error' } };
   }
 };
