@@ -14,7 +14,7 @@ const login = async (username: string, password: string): Promise<ServiceReturn<
   try {
     const user = await UserModel.findOne({ where: { username } });
     if (!user || !compare(password, user.dataValues.password)) {
-      return { status: 401, data: { message: 'Usernam or password invalid' } };
+      return { status: 401, data: { message: 'Username or password invalid' } };
     }
     const token = createToken({ 
       id: user.dataValues.id, username: user.dataValues.username,
