@@ -10,4 +10,8 @@ const createProductSchema = Joi.object({
   name, price, orderId,
 });
 
+// const createOrderSchema = Joi.object({
+//   userId: Joi.number().integer().required(),
+// });
+
 export default { createProductSchema };
