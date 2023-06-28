@@ -10,27 +10,27 @@ chai.use(chaiHttp);
 describe('POST /products', function () { 
   beforeEach(function () { sinon.restore(); });
   it('create a product without name', async function () {
-    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithouName);
+    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithoutName);
     expect(httpResponse.status).to.be.equal(400);
     expect(httpResponse.body).to.be.deep.equal({ message: '"name" is required' });
   });
 
   it('create a product with empty name', async function () {
-    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithEmptyName);
-    expect(httpResponse.status).to.be.equal(400);
-    expect(httpResponse.body).to.be.deep.equal({ message: '"name" is not allowed to be empty' });
+    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithInvalidName);
+    expect(httpResponse.status).to.be.equal(422);
+    expect(httpResponse.body).to.be.deep.equal({ message: '"name" length must be at least 3 characters long' });
   });
 
   it('create a product without price', async function () {
-    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithouPrice);
+    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithoutPrice);
     expect(httpResponse.status).to.be.equal(400);
     expect(httpResponse.body).to.be.deep.equal({ message: '"price" is required' });
   });
 
   it('create a product with empty price', async function () {
-    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithEmptyPrice);
-    expect(httpResponse.status).to.be.equal(400);
-    expect(httpResponse.body).to.be.deep.equal({ message: '"price" is not allowed to be empty' });
+    const httpResponse = await chai.request(app).post('/products').send(productsMock.productWithInvalidPrice);
+    expect(httpResponse.status).to.be.equal(422);
+    expect(httpResponse.body).to.be.deep.equal({ message: '"price" length must be at least 3 characters long' });
   });
 
   it('create a product without orderId', async function () {

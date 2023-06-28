@@ -49,6 +49,6 @@ describe('POST /login', function () {
     sinon.stub(UserModel, 'findOne').resolves(user);
     const httpResponse = await chai.request(app).post('/login').send(successfullLogin);
     expect(httpResponse.status).to.be.equal(200);
-    expect(httpResponse).to.have.property('token');
+    expect(httpResponse.body).to.have.property('token');
   });
 });

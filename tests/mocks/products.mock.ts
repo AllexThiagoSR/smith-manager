@@ -1,10 +1,10 @@
-const productWithouName = { price: '30 peças de ouro', orderId: 4 };
+const productWithoutName = { price: '30 peças de ouro', orderId: 4 };
 
-const productWithEmptyName = { name: '', price: '30 peças de ouro', orderId: 4 };
+const productWithInvalidName = { name: 'Al', price: '30 peças de ouro', orderId: 4 };
 
-const productWithouPrice = { name: 'Martelo do Thor', orderId: 4 };
+const productWithoutPrice = { name: 'Martelo do Thor', orderId: 4 };
 
-const productWithEmptyPrice = { name: 'Martelo do Thor', price: '', orderId: 4 };
+const productWithInvalidPrice = { name: 'Martelo do Thor', price: '2', orderId: 4 };
 
 const productWithouOrderId = { name: 'Martelo do Thor', price: '30 peças de ouro' };
 
@@ -49,4 +49,4 @@ const productsList = [
   }
 ];
 
-export default { productWithouName, productsList, newProduct, productWithEmptyName, productWithouPrice, productWithEmptyPrice, productWithouOrderId };
+export default { productWithoutName, productsList, newProduct, productWithInvalidName, productWithoutPrice, productWithInvalidPrice, productWithouOrderId };
