@@ -39,6 +39,8 @@ const create = async (
     await ProductModel.update({ orderId: id }, { where: { id: productIds } });
     return { status: 201, data: { userId, productIds } };
   } catch (error) {
+    console.log(error);
+    
     return { status: 500, data: { message: 'Internal server error' } };
   }
 };

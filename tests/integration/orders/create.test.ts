@@ -5,7 +5,9 @@ import app from '../../../src/app'
 import { orderToAdd, orderUserIdAsString, orderUserIdWithANumberAsString, orderWithProductIdsDifferentOfNumber, orderWithoutProductIds, orderWithoutUserId} from '../../mocks/orders.mock';
 import ProductModel from '../../../src/database/models/order.model';
 import * as jwtUtils from '../../../src/utils/jwtUtils';
-import UserModel from '../../../src/database/models/user.model';
+import UserModel, { UserSequelizeModel } from '../../../src/database/models/user.model';
+import OrderModel from '../../../src/database/models/order.model';
+import { ProductSequelizeModel } from '../../../src/database/models/product.model';
 
 chai.use(chaiHttp);
 
@@ -56,9 +58,22 @@ describe('POST /orders', function () {
 
   it('internal server error', async function () {
     sinon.stub(jwtUtils, 'decode').returns({ id: 1, username: 'teste' });
-    sinon.stub(ProductModel, 'create').throws();
+    sinon.stub(UserModel, 'findByPk').throws();
     const httpResponse = await chai.request(app).post('/orders').send(orderToAdd).set({ authorization: 'token' });
     expect(httpResponse).to.have.property('status', 500);
     expect(httpResponse.body).to.be.deep.equal({ message: 'Internal server error' });
+  });
+
+  it('successful add', async function () {
+    const { userId } = orderToAdd;
+    const order = OrderModel.build({ userId, id: 1 });
+    sinon.stub(jwtUtils, 'decode').returns({ id: 1, username: 'teste' });
+    sinon.stub(UserModel, 'findByPk').resolves({} as UserSequelizeModel);
+    sinon.stub(ProductModel, 'update').resolves([2]);
+    sinon.stub(OrderModel, 'create').resolves(order)
+    const httpResponse = await chai.request(app).post('/orders').send(orderToAdd).set({ authorization: 'token' });
+    
+    expect(httpResponse).to.have.property('status', 201);
+    expect(httpResponse.body).to.be.deep.equal(orderToAdd);
   });
 });
