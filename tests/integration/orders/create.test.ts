@@ -41,7 +41,7 @@ describe('POST /orders', function () {
     expect(httpResponse.body).to.be.deep.equal({ message: '"productIds" is required' });
   });
 
-  it('create a order with empty price', async function () {
+  it('create a order with productIds different of number', async function () {
     sinon.stub(jwtUtils, 'decode').returns({ id: 1, username: 'teste' });
     const httpResponse = await chai.request(app).post('/orders').send(orderWithProductIdsDifferentOfNumber).set({ authorization: 'token' });
     expect(httpResponse.status).to.be.equal(422);
