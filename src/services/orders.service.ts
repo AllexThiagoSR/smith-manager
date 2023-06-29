@@ -21,8 +21,6 @@ const getAll = async (): Promise<ServiceReturn<OrderSequelizeModel[]>> => {
   }
 };
 
-// const getOrder = async (id: number) => {};
-
 type NewOrderReturn = {
   userId: number,
   productIds: number[],
@@ -37,13 +35,12 @@ const create = async (
     if (!user) {
       return { status: 404, data: { message: '"userId" not found' } };
     }
-    const products = await ProductModel.findAll({ where: { id: productIds } });
-    if (products.length !== productIds.length) {
-      return { status: 404, data: { message: 'Some product not found' } };
-    }
-    await OrderModel.create({ userId });
+    const { dataValues: { id } } = await OrderModel.create({ userId });
+    await ProductModel.update({ orderId: id }, { where: { id: productIds } });
     return { status: 201, data: { userId, productIds } };
   } catch (error) {
+    console.log(error);
+    
     return { status: 500, data: { message: 'Internal server error' } };
   }
 };
